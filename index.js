@@ -34,7 +34,22 @@ function handleMenuQuestions() {
                     viewDepartments();
                     break;
                 case 'View All Roles':
-                    viewAllRoles();
+                    viewRoles();
+                    break;
+                case 'View All Employees':
+                    viewEmployees();
+                    break;
+                case 'Add Department':
+                    addDepartment();
+                    break;
+                case 'Add A Role':
+                    addRole();
+                    break;
+                case 'Add and Employee':
+                    addEmployee();
+                    break;
+                case 'Update an Employee Role':
+                    updateEmployee();
                     break;
                 default:
                     process.exit();
@@ -48,6 +63,8 @@ async function viewDepartments() {
     console.table(departments, ['id', 'name']);
     handleMenuQuestions();
 };
+
+
 
 function addEmployee(){
     inquirer.prompt([
