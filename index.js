@@ -77,32 +77,19 @@ const viewEmployees = async () => {
 }
 
 
-
-function addEmployee(){
+const addDepartment = async () => {
     inquirer.prompt([
-
         {
-            message: 'What is the engineers name?',
+            message: 'What is the name of the department?',
             type: 'input',
-            name: 'first_name',
+            name: 'departmentName',
         },
-        {
-            message: 'What is the engineers ID?',
-            type: 'input',
-            name: 'last_name',
-        },
-        {
-            message: 'What is the engineers Email Address?',
-            type: 'input',
-            name: 'role_id',
-        },
-        {
-            message: 'What is the engineers Github Account?',
-            type: 'input',
-            name: 'manager_id',
-        }
     ])
-    .then(answers => {
-       db.insertEmployee(answers.first_name, answers.last_name, )
+    .then(async (answers) => {
+        const message = await info.addDepartment(answers.departmentName);
+        console.log(message);
+        const newRows = await info.viewAllDepartments();
+        console.table(newRows);
+        handleMenuQuestions();
     })
 }
