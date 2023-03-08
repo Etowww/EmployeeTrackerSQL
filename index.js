@@ -58,11 +58,23 @@ function handleMenuQuestions() {
 
 }
 
-async function viewDepartments() {
-    const departments = await info.viewAllDepartments();
-    console.table(departments, ['id', 'name']);
+const viewDepartments = async () => {
+    const rows = await info.viewAllDepartments();
+    console.table(rows);
+    handleMenuQuestions();
+}
+
+const viewRoles = async () => {
+    const rows = await info.viewAllRoles();
+    console.table(rows);
     handleMenuQuestions();
 };
+
+const viewEmployees = async () => {
+    const rows = await info.viewAllEmployees();
+    console.table(rows);
+    handleMenuQuestions();
+}
 
 
 
