@@ -1,6 +1,10 @@
 // Import and Require NPM Packages
 const inquirer = require('inquirer');
-const db = require('./db/query')
+const Information = require('./db/query')
+const connection = require('./db/connection')
+
+const info = new Information(connection);
+
 
 const menuQuestions = [
     {
@@ -27,26 +31,11 @@ function handleMenuQuestions() {
         .then(answers => {
             switch (answers.userChoice) {
                 case 'View All Departments':
-                    viewAllDepartments();
+                    viewDepartments();
                     break;
-                // case 'View All Departments':
-
-                // break;
-                // case 'View All Departments':
-
-                // break;
-                // case 'View All Departments':
-
-                // break;
-                // case 'View All Departments':
-
-                // break;
-                // case 'View All Departments':
-
-                // break;
-                // case 'View All Departments':
-
-                // break;
+                case 'View All Roles':
+                    viewAllRoles();
+                    break;
                 default:
                     process.exit();
             }
@@ -54,13 +43,11 @@ function handleMenuQuestions() {
 
 }
 
-function viewAllDepartments() {
-    db.viewDepartments().then((data) => {
-        console.table(data)
-        handleMenuQuestions()
-    })
-   
-}
+async function viewDepartments() {
+    const departments = await info.viewAllDepartments();
+    console.table(departments, ['id', 'name']);
+    handleMenuQuestions();
+};
 
 function addEmployee(){
     inquirer.prompt([
