@@ -39,6 +39,15 @@ class Information {
         return rows;
     };
 
+    async addDepartment(departmentName) {
+        const query = await connection();
+        const [rows, fields] = await query.execute('INSERT INTO department (name) VALUES (?)', [departmentName]);
+        if (rows.affectedRows === 1) {
+            return 'Department added successfully! The newly updated database is shown below';
+        } else {
+            return 'Error adding department.';
+        }
+    }
 
 
 }
