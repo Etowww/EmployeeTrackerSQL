@@ -11,7 +11,7 @@ Once copied they will need to change into the correct directory with the copy of
 
 ## Usage
 
-Demonstration video: 
+Demonstration video: https://drive.google.com/file/d/1miTkdy6kgSBYdl3MhCQ97dcsZ3FYVq7D/view?usp=sharing
 
 To use this application the user will have to change into the directory with the source code. Then run node index.js, if successfull they will be prompted to choose an action based on a list of potential actions. To execute the desired action they will simply have to follow the prompts. For example if the user would like to add an employee they would select the 'Add an Employee' option and then enter the specific input required from the prompts. Once finished the employee will be added to the database and the new database will be displayed back to the user to show the updated information.
 
