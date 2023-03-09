@@ -15,6 +15,7 @@ const menuQuestions = [
             'View All Departments',
             'View All Roles',
             'View All Employees',
+            'View All Managers',
             'Add Department',
             'Add A Role',
             'Add An Employee',
@@ -38,6 +39,9 @@ function handleMenuQuestions() {
                     break;
                 case 'View All Employees':
                     viewEmployees();
+                    break;
+                case 'View All Managers':
+                    viewManagers();
                     break;
                 case 'Add Department':
                     addDepartment();
@@ -76,11 +80,13 @@ const viewEmployees = async () => {
     handleMenuQuestions();
 }
 
-// const viewManagers = async () => {
-//     const rows = await info.viewAllManagers();
-//     console.table(rows);
-//     handleMenuQuestions();
-// }
+const viewManagers = async () => {
+    const rows = await info.viewAllManagers();
+    console.table(rows);
+    handleMenuQuestions();
+}
+
+
 
 
 const addDepartment = async () => {
@@ -189,6 +195,49 @@ const addEmployee = async () => {
             answers.lastName,
             answers.roleId,
             answers.managerId
+        );
+        console.log(message);
+        const newRows = await info.viewAllEmployees();
+        console.table(newRows);
+        handleMenuQuestions();
+    })
+}
+
+const updateEmployee = async () => {
+    const employees = await info.viewAllEmployees();
+    const employeeChoices = employees.map((employee) => {
+        return {
+            name: `${employee.first_name} ${employee.last_name}`,
+            value: employee.employee_id
+        };
+    });
+
+    const roles = await info.viewAllRoles();
+    const roleChoices = roles.map((role) => {
+        return {
+            name: role.role_title,
+            value: role.role_id
+        };
+    });
+
+    inquirer.prompt([
+        {
+            message: 'Please select the employee who is changing roles',
+            type: 'list',
+            name: 'employeeId',
+            choices: employeeChoices
+        },
+        {
+            message: 'Please select the new role for the employee',
+            type: 'list',
+            name: 'roleId',
+            choices: roleChoices
+        }
+    ])
+    .then(async (answers) => {
+        const message = await info.updateEmployeeRole(
+            answers.employeeId,
+            answers.roleId,
         );
         console.log(message);
         const newRows = await info.viewAllEmployees();

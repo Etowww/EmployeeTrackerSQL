@@ -97,6 +97,20 @@ class Information {
         }
     }
 
+///// Updating Queries /////////
+    async updateEmployeeRole(employeeId, roleId) {
+        const query = await connection();
+        const [rows, fields] = await query.execute(`
+            UPDATE employee SET employee_role_id = ? WHERE employee_id = ?`,
+            [roleId, employeeId]
+        );
+        if (rows.affectedRows === 1) {
+            return 'Employee Role successfully updated. The new employee database is shown below';
+        } else {
+            return 'Error upating employee';
+        }
+    }
+
 }
 
 module.exports = Information;
