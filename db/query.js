@@ -6,6 +6,9 @@ class Information {
         this.connection = connection;
     };
 
+
+///// Viewing Queries /////////
+
     async viewAllDepartments() {
         const query = await connection();
         const [rows, fields] = await query.execute('SELECT * FROM department');
@@ -15,7 +18,13 @@ class Information {
 
     async viewAllRoles () {
         const query = await connection();
-        const [rows, fields] = await query.execute('SELECT * FROM roles');
+        const [rows, fields] = await query.execute(`
+            SELECT
+                roles.role_id, roles.role_title, roles.role_salary, department.name AS department
+            FROM
+                roles
+                INNER JOIN department ON roles.role_dept_id = department.dept_id   
+        `);
         return rows;
     }
 
@@ -39,6 +48,18 @@ class Information {
         return rows;
     };
 
+
+    async viewAllManagers () {
+        const query = await connection();
+        const [rows, fields] = await query.execute(`
+            SELECT employee_id, first_name, last_name
+            FROM employee
+            WHERE manager_id IS NULL;
+        `);
+        return rows;
+    }
+
+/////// Adding Queries /////////////////
     async addDepartment(departmentName) {
         const query = await connection();
         const [rows, fields] = await query.execute('INSERT INTO department (name) VALUES (?)', [departmentName]);
@@ -49,6 +70,32 @@ class Information {
         }
     }
 
+
+    async addRole(roleName, roleSalary, departmentId) {
+        const query = await connection();
+        const [rows, fields] = await query.execute(
+            'INSERT INTO roles (role_title, role_salary, role_dept_id) VALUES (?, ?, ?)',
+            [roleName, roleSalary, departmentId]
+        );
+        if (rows.affectedRows === 1) {
+            return 'Role added successfully! The newly updated database is shown below';
+        } else {
+            return 'Error adding role';
+        }
+    }
+
+    async addEmployee(firstName, lastName, roleId, managerId) {
+        const query = await connection();
+        const [rows, fields] = await query.execute(
+          'INSERT INTO employee (first_name, last_name, employee_role_id, manager_id) VALUES (?, ?, ?, ?)',
+          [firstName, lastName, roleId, managerId]
+        );
+        if (rows.affectedRows === 1) {
+          return 'Employee added successfully! The newly updated database is shown below';
+        } else {
+          return 'Error adding employee';
+        }
+    }
 
 }
 
